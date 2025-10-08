@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "export": "next export",
+    "start": "next start",
+    "deploy:docs": "npm run build && npm run export && powershell -Command \"if (Test-Path docs) { Remove-Item -Recurse -Force docs }; Rename-Item out docs\""
   },
   "dependencies": {
     "react": "19.1.0",
