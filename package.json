@@ -3,11 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-
-    "start": "next start",
-    "deploy:docs": "npm run build && powershell -Command \"if (Test-Path docs) { Remove-Item -Recurse -Force docs }; Rename-Item out docs\""
+    "dev": "next dev",
+    "build": "next build"
   },
   "dependencies": {
     "react": "19.1.0",
