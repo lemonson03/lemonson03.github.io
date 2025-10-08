@@ -1,4 +1,5 @@
 name: Deploy to GitHub Pages
+
 on:
   push:
     branches: [ master ]   # 기본 브랜치가 main이면 main으로 변경
@@ -22,7 +23,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build            # ✅ 여기서 out/ 가 생성됨 (output: 'export')
+      - run: npm run build          # output: 'export' 덕분에 out/ 생성
       - run: ls -la out && test -f out/index.html
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
@@ -32,6 +33,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment:               # ✅ 이 블록이 꼭 필요
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
