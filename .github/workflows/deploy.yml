@@ -1,8 +1,7 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
-    branches: [ master ]   # 기본 브랜치명이 main이면 main으로 바꿔줘
+    branches: [ master ]   # 기본 브랜치가 main이면 main으로 변경
 
 permissions:
   contents: read
@@ -10,7 +9,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
 
 jobs:
@@ -21,21 +20,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
       - run: npm ci
-      - run: npm run build
-      - run: npm run export
+      - run: npm run build            # ✅ 여기서 out/ 가 생성됨 (output: 'export')
+      - run: ls -la out && test -f out/index.html
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: out
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
